@@ -10,11 +10,6 @@ host_port = 7000
 leftMotor = Servo(3)
 rightMotor = Servo(27)
 
-def getTemperature():
-    temp = os.popen("vcgencmd measure_temp").read()
-    return temp
-
-
 class MyServer(BaseHTTPRequestHandler):
 
     def do_HEAD(self):
@@ -32,35 +27,23 @@ class MyServer(BaseHTTPRequestHandler):
         html = '''
            <html>
            <style>
+
            </style>
            <body style="width:960px; margin: 20px auto;">
            <h1 style="text-align:center;">Rover Control</h1>
-           <p style="color:white;">Current GPU temperature is {}</p>
            <form action="/" method="POST">
-               
-               <input type="submit" name="Stop" value="Stop" style="height:150px; width:150px; color:red;">
-               <br>
-               <input type="submit" name="Forward" value="Forward" style="height:300px; width:300px; margin:0 auto; display:flex;">
-               <br>
-               <input type="submit" name="Left" value="Left" style="height:300px; width:300px; margin:0 auto; display:inline;">
-               <input type="submit" name="Right" value="Right" style="height:300px; width:300px; margin:0 auto; display:inline;">
-               <br>
-               <input type="submit" name="Backward" value="Backward" style="height:300px; width:300px; margin:0 auto; display:flex;">
 
-           <button data-test="55" onclick="testFunction(this);">button1</button>
-           
-           <script>
-              alert("scripts work");
-           </script>
-           
-           
-           
+               <br>
+               <input type="submit" name="Forward" value="Forward" style="height:150px; width:150px; margin:0 auto; display:flex;">
+               <input type="submit" name="Left" value="Left" style="height:150px; width:150px; margin:0 auto; display:inline;">
+               <input type="submit" name="Stop" value="Stop" style="height:150px; width:150px; color:red;">
+               <input type="submit" name="Right" value="Right" style="height:150px; width:150px; margin:0 auto; display:inline;">
+               <input type="submit" name="Backward" value="Backward" style="height:150px; width:150px; margin:0 auto; display:flex;">           
            </body>
            </html>
         '''
-        temp = getTemperature()
         self.do_HEAD()
-        self.wfile.write(html.format(temp[5:]).encode("utf-8"))
+        self.wfile.write(html.format().encode("utf-8"))
 
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
@@ -97,3 +80,4 @@ if __name__ == '__main__':
         http_server.serve_forever()
     except KeyboardInterrupt:
         http_server.server_close()
+
