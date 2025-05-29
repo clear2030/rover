@@ -27,12 +27,15 @@ class MyServer(BaseHTTPRequestHandler):
         html = '''
            <html>
            <style>
-
+             .myDiv{
+                 text-align:center;
+             }
            </style>
            <body style="width:960px; margin: 20px auto;">
            <h1 style="text-align:center;">Rover Control</h1>
+           <p style="color:white;">Current GPU temperature is {}</p>
            <form action="/" method="POST">
-
+               <div class="myDiv">
                <br>
                <input type="submit" name="Forward" value="Forward" style="height:150px; width:150px; margin:0 auto; display:flex;">
                <input type="submit" name="Left" value="Left" style="height:150px; width:150px; margin:0 auto; display:inline;">
@@ -43,7 +46,7 @@ class MyServer(BaseHTTPRequestHandler):
            </html>
         '''
         self.do_HEAD()
-        self.wfile.write(html.format().encode("utf-8"))
+        self.wfile.write(html.encode("utf-8"))
 
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
@@ -80,4 +83,3 @@ if __name__ == '__main__':
         http_server.serve_forever()
     except KeyboardInterrupt:
         http_server.server_close()
-
